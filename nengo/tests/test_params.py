@@ -325,7 +325,7 @@ def test_iter_params_does_not_list_obsolete_params():
     assert set(params.iter_params(Test())) == {'p1', 'p2'}
 
 
-def test_coerce_defaults():
+def test_coerce_defaults():  # noqa: C901
     with nengo.Network() as net:
         for obj in [nengo.Probe, nengo.Node, nengo.Ensemble, nengo.Connection]:
             for name, attr in obj.__dict__.items():
@@ -333,7 +333,7 @@ def test_coerce_defaults():
                         attr.default is params.Unconfigurable):
                     continue
 
-                # try to set it to a non-default value
+                # make up a non-default value for the parameter
                 if isinstance(attr, params.BoolParam):
                     val = not attr.default
                 elif isinstance(attr, params.NumberParam):
