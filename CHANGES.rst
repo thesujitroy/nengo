@@ -22,7 +22,10 @@ Release History
 2.6.1 (unreleased)
 ==================
 
+**Fixed**
 
+- Fixed validation checks that prevented the default from being configured
+  on certain parameters (TODO: PR link)
 
 
 2.6.0 (October 6, 2017)

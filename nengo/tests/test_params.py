@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+import nengo
 from nengo import params
 from nengo.exceptions import ObsoleteError, ValidationError
 from nengo.utils.compat import PY2
@@ -322,3 +323,61 @@ def test_iter_params_does_not_list_obsolete_params():
         obsolete = params.ObsoleteParam('obsolete', 'not included in params')
 
     assert set(params.iter_params(Test())) == {'p1', 'p2'}
+
+
+def test_coerce_defaults():
+    with nengo.Network() as net:
+        for obj in net.config.params:
+            for name, attr in obj.__dict__.items():
+                if (not isinstance(attr, params.Parameter) or
+                        attr.default is params.Unconfigurable):
+                    continue
+
+                try:
+                    # attempt to manually set the attribute to its default
+                    setattr(net.config[obj], name, attr.default)
+
+                    # try to set it to a non-default value
+                    if isinstance(attr, params.BoolParam):
+                        val = not attr.default
+                    elif isinstance(attr, params.NumberParam):
+                        val = (1 if attr.default is None else
+                               attr.default + 1)
+                    elif isinstance(attr, params.StringParam):
+                        val = "abc"
+                    elif isinstance(attr, params.NdarrayParam):
+                        shape = []
+                        for x in attr.shape:
+                            if x == "n_neurons":
+                                shape.append(
+                                    net.config[nengo.Ensemble].n_neurons)
+                            elif x == "dimensions":
+                                shape.append(
+                                    net.config[nengo.Ensemble].dimensions)
+                            else:
+                                shape.append(1)
+                        val = np.zeros(shape)
+                    elif isinstance(attr, nengo.base.ProcessParam):
+                        val = nengo.processes.WhiteNoise()
+                    elif isinstance(attr, nengo.node.OutputParam):
+                        val = lambda x: x + 1
+                    elif isinstance(attr, nengo.synapses.SynapseParam):
+                        val = nengo.synapses.Alpha(0.1)
+                    elif isinstance(attr, nengo.solvers.SolverParam):
+                        weights = isinstance(
+                            attr, nengo.connection.ConnectionSolverParam)
+                        val = nengo.solvers.LstsqL2nz(weights=weights)
+                    elif isinstance(
+                            attr, nengo.connection.ConnectionFunctionParam):
+                        val = lambda x: x + 1
+                    elif isinstance(
+                            attr, nengo.learning_rules.LearningRuleTypeParam):
+                        val = nengo.learning_rules.PES()
+                    elif isinstance(attr, nengo.neurons.NeuronTypeParam):
+                        val = nengo.AdaptiveLIF()
+                    else:
+                        raise NotImplementedError
+                    setattr(net.config[obj], name, val)
+                except Exception:
+                    print("Error setting %s.%s" % (obj, name))
+                    raise

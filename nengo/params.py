@@ -51,8 +51,20 @@ class Parameter(object):
     readonly : bool, optional
         If true, the parameter can only be set once.
         By default, parameters can be set multiple times.
+
+    Attributes
+    ----------
+    coerce_defaults : bool (Default: True)
+        If True, validate default values for this parameter if they are changed
+        by the config system. Setting a value on a parameter object instance
+        will always be validated.
+    equatable : bool (Default: False)
+        If True, parameter values can be compared for equality
+        (e.g., ``a==b``); otherwise equality checks will just compare object
+        identity (e.g., ``a is b``).
     """
 
+    coerce_defaults = True
     equatable = False
 
     def __init__(self, name,
@@ -132,7 +144,8 @@ class Parameter(object):
     def set_default(self, obj, value):
         if not self.configurable:
             raise ConfigError("Parameter '%s' is not configurable" % self)
-        self._defaults[obj] = self.coerce(obj, value)
+        self._defaults[obj] = (self.coerce(obj, value) if self.coerce_defaults
+                               else value)
 
     def check_type(self, instance, value, type_):
         if value is not None and not isinstance(value, type_):
