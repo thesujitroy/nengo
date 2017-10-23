@@ -342,7 +342,7 @@ def test_all_nengo_parameters_can_be_configured():  # noqa: C901
                 elif isinstance(attr, params.StringParam):
                     val = "abc"
                 elif isinstance(attr, params.NdarrayParam):
-                    val = np.zeros([1] * len(shape))
+                    val = np.zeros([1] * len(attr.shape))
                 elif isinstance(attr, nengo.base.ProcessParam):
                     val = nengo.processes.WhiteNoise()
                 elif isinstance(attr, nengo.node.OutputParam):
