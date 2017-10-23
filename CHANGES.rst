@@ -26,7 +26,7 @@ Release History
 
 - Default values can no longer be set for ``Ensemble.n_neurons`` or
   ``Ensemble.dimensions``
-  (`#1372 <https://github.com/nengo/nengo/pull/1372>`__)
+  (`#1372 <https://github.com/nengo/nengo/pull/1372>`_)
 
 **Fixed**
 
