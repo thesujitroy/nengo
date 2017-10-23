@@ -325,7 +325,7 @@ def test_iter_params_does_not_list_obsolete_params():
     assert set(params.iter_params(Test())) == {'p1', 'p2'}
 
 
-def test_coerce_defaults():  # noqa: C901
+def test_all_nengo_parameters_can_be_configured():  # noqa: C901
     with nengo.Network() as net:
         for obj in [nengo.Probe, nengo.Node, nengo.Ensemble, nengo.Connection]:
             for name, attr in obj.__dict__.items():
