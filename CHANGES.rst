@@ -25,7 +25,8 @@ Release History
 **Fixed**
 
 - Fixed validation checks that prevented the default from being configured
-  on certain parameters (TODO: PR link)
+  on certain parameters.
+  (`#1372 <https://github.com/nengo/nengo/pull/1372>`_)
 
 
 2.6.0 (October 6, 2017)
