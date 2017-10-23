@@ -445,7 +445,8 @@ class NdarrayParam(Parameter):
 
     @property
     def coerce_defaults(self):
-        return not any(is_string(dim) for dim in self.shape)
+        return all(
+            is_integer(dim) or dim in ('...', '*') for dim in self.shape)
 
 
 FunctionInfo = collections.namedtuple('FunctionInfo', ['function', 'size'])
