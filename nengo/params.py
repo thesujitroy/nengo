@@ -55,9 +55,9 @@ class Parameter(object):
     Attributes
     ----------
     coerce_defaults : bool (Default: True)
-        If True, validate default values for this parameter if they are changed
-        by the config system. Setting a value on a parameter object instance
-        will always be validated.
+        If True, validate values for this parameter when they are set in a
+        `Config` object. Setting a parameter directly on an object will always
+        be validated.
     equatable : bool (Default: False)
         If True, parameter values can be compared for equality
         (e.g., ``a==b``); otherwise equality checks will just compare object
