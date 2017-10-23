@@ -342,17 +342,7 @@ def test_all_nengo_parameters_can_be_configured():  # noqa: C901
                 elif isinstance(attr, params.StringParam):
                     val = "abc"
                 elif isinstance(attr, params.NdarrayParam):
-                    shape = []
-                    for x in attr.shape:
-                        if x == "n_neurons":
-                            shape.append(
-                                net.config[nengo.Ensemble].n_neurons)
-                        elif x == "dimensions":
-                            shape.append(
-                                net.config[nengo.Ensemble].dimensions)
-                        else:
-                            shape.append(1)
-                    val = np.zeros(shape)
+                    val = np.zeros([1] * len(shape))
                 elif isinstance(attr, nengo.base.ProcessParam):
                     val = nengo.processes.WhiteNoise()
                 elif isinstance(attr, nengo.node.OutputParam):

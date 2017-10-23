@@ -443,6 +443,10 @@ class NdarrayParam(Parameter):
                                       attr=self.name, obj=instance)
         return ndarray
 
+    @property
+    def coerce_defaults(self):
+        return not ("n_neurons" in self.shape or "dimensions" in self.shape)
+
 
 FunctionInfo = collections.namedtuple('FunctionInfo', ['function', 'size'])
 

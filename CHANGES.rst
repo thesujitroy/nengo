@@ -22,6 +22,12 @@ Release History
 2.6.1 (unreleased)
 ==================
 
+**Changed**
+
+- Default values can no longer be set for ``Ensemble.n_neurons`` or
+  ``Ensemble.dimensions``
+  (`#1372 <https://github.com/nengo/nengo/pull/1372>`__)
+
 **Fixed**
 
 - Fixed validation checks that prevented the default from being configured
